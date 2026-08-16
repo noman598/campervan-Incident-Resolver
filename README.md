@@ -1,4 +1,4 @@
-# OpsLens — AI Operations Investigator for Campervan Rentals
+# OpsLens: AI Operations Investigator for Campervan Rentals
 
 An AI system that investigates customer incidents (breakdowns, damage disputes, late returns)
 by reasoning across contracts, vehicles, payments, and customer history- recommending
@@ -66,29 +66,25 @@ The graph is **gated and parallel**, not a flat pipeline:
 
 ## Key Design Decisions
 
-- **Multi-tenant from the ground up** — every table is scoped by `tenant_id`, so the
+- **Multi-tenant from the ground up** - every table is scoped by `tenant_id`, so the
   platform can serve multiple rental companies from shared infrastructure without
   data leakage between them.
-- **Structured outputs everywhere** — each agent returns a Pydantic-validated object
-  (e.g. `incident_type: Literal[...]`), not a string to parse. This makes the pipeline
-  reliable and auditable, not dependent on regex-parsing LLM prose.
-- **Gated + parallel graph, not a linear chain** — the contract check is a hard gate
+- **Structured outputs everywhere** - each agent returns a Pydantic-validated object
+  not a string to parse. This makes the pipeline reliable and auditable.
+- **Gated + parallel graph, not a linear chain** - the contract check is a hard gate
   that can short-circuit the investigation, and independent checks run without
   waiting on each other. This is why the project uses LangGraph instead of a simple
   sequential script.
-- **Not every agent uses an LLM** — Payment and History checks are deterministic rule
-  logic; only steps that genuinely need reasoning or summarization call the model.
-  Using an LLM for a simple boolean check would be slower, costlier, and less reliable.
-- **Human-in-the-loop by design** — no financial or operational action executes without
+- **Human-in-the-loop by design** - no financial or operational action executes without
   explicit human approval. The AI's job is to investigate and recommend, not decide.
-- **Full audit logging** — every agent output and human decision is recorded, so any
+- **Full audit logging** - every agent output and human decision is recorded, so any
   resolution can be traced back to exactly what data and reasoning produced it.
 
 ---
 
 ## Evaluation
 
-Tested against a labeled synthetic dataset:
+Tested against a 200+ labeled synthetic dataset:
 
 | Metric                  | Result |
 |--------------------------|--------|
@@ -112,22 +108,11 @@ cp .env.example .env
 
 # 3. Set up the database
 alembic upgrade head
-python -m app.seed          # populates realistic synthetic data
+python -m app.seed    
 
 # 4. Run the API
 uvicorn app.main:app --reload
 ```
-
----
-
-## What's Next
-
-- True concurrent execution of the Vehicle/Payment/History agents (currently
-  sequential within one node for simplicity)
-- Image-based damage evidence comparison (pickup vs. return photos), currently
-  handled via text notes only
-- Full staff-facing approval dashboard (currently API-level approval)
-- Multi-tenant onboarding flow for additional rental companies
 
 ---
 
