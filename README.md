@@ -29,7 +29,7 @@ final action before anything is executed.
 
 
 The graph is **gated and parallel**, not a flat pipeline:
-- The **Gate Agent** checks contract coverage first. If the incident isn't covered,
+- The **Contract Agent** checks contract coverage first. If the incident isn't covered,
   the graph short-circuits straight to Synthesis, no wasted calls checking vehicle
   availability or payment status for a claim that was never going to be approved.
 - If covered, **Vehicle, Payment, and History agents** run independently (none needs
