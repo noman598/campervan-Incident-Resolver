@@ -24,7 +24,8 @@ final action before anything is executed.
 
 ## Architecture
 
-<img width="505" height="701" alt="image" src="https://github.com/user-attachments/assets/f96d6b00-6cdf-4a34-8837-3449172029f2" />
+<img width="793" height="1162" alt="Untitled-2026-05-19-1620" src="https://github.com/user-attachments/assets/ab79e9cc-71e0-484b-aec6-c547dd714e91" />
+
 
 
 The graph is **gated and parallel**, not a flat pipeline:
