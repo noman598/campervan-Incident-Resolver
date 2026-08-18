@@ -8,7 +8,8 @@ from app.config import settings
 from app.models import Vehicle, VehicleStatus, Payment, PaymentStatus, Booking, Incident
 from app.agents.state import InvestigationState
 
-llm = ChatGroq(model="llama-3.3-70b-versatile", api_key=settings.GROQ_API_KEY, temperature=0)
+llm = ChatGroq(model="qwen/qwen3.6-27b", api_key=settings.GROQ_API_KEY, temperature=0)
+
 
 
 # ============================================================
